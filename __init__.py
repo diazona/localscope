@@ -18,24 +18,32 @@ class ScopeContextManager(object):
     So in the following example, once the scope ends, `a` and `b` are
     restored to their original values, and `c` is restored to not existing.
 
-        a, b = 7, 9
-        with scope():
-            a, b = 3, 5
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 16
-        print(c) # NameError
+        >>> a, b = 7, 9
+        >>> with scope():
+        ...     a, b = 3, 5
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        16
+        >>> print(c)
+        Traceback (most recent call last):
+            ...
+        NameError: name 'c' is not defined
 
     You can also provide a list of variable names to preserve. If you do this,
     everything is reset at the end of the scope _except_ for the chosen names.
 
-        a, b = 7, 9
-        with scope(['c']):
-            a, b = 3, 5
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 16
-        print(c) # prints 8
+        >>> a, b = 7, 9
+        >>> with scope(['c']):
+        ...     a, b = 3, 5
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        16
+        >>> print(c)
+        8
 
     The simple mode with no arguments is equivalent to passing an empty list.
 
@@ -44,22 +52,28 @@ class ScopeContextManager(object):
     corresponding variables. For instance, the last example could also be
     done like this:
 
-        a, b = 7, 9
-        with scope(['c'], a=3, b=5):
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 16
-        print(c) # prints 8
+        >>> a, b = 7, 9
+        >>> with scope(['c'], a=3, b=5):
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        16
+        >>> print(c)
+        8
 
     The keyword arguments can also be variables in the list, in which
     case their values won't be reset afterwards.
 
-        a, b = 7, 9
-        with scope(['c', 'b'], a=3, b=5):
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 12
-        print(c) # prints 8
+        >>> a, b = 7, 9
+        >>> with scope(['c', 'b'], a=3, b=5):
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        12
+        >>> print(c)
+        8
 
     There's another usage mode where you pass _only_ keyword arguments,
     without also giving a list. In this case, only the variables provided as
@@ -68,23 +82,29 @@ class ScopeContextManager(object):
     except that it doesn't perform a literal substitution on the code as
     Mathematica does). For example:
 
-        a, b = 7, 9
-        with scope(a=3):
-            b = 5
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 12
-        print(c) # prints 8
+        >>> a, b = 7, 9
+        >>> with scope(a=3):
+        ...     b = 5
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        12
+        >>> print(c)
+        8
 
     Note that `b` is not reset to 9 at the end of the scope. Contrast that
     with the following example:
 
-        a, b = 7, 9
-        with scope(a=3, b=5):
-            c = a + b
-            print(c) # prints 8
-        print(a + b) # prints 16
-        print(c) # prints 8
+        >>> a, b = 7, 9
+        >>> with scope(a=3, b=5):
+        ...     c = a + b
+        ...     print(c)
+        8
+        >>> print(a + b)
+        16
+        >>> print(c)
+        8
 
     in which `b` _is_ reset, because it was given as a keyword argument.
 
@@ -127,3 +147,7 @@ class ScopeContextManager(object):
                     del l[name]
 
 scope = ScopeContextManager
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
