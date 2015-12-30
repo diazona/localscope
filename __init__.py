@@ -8,15 +8,15 @@ class ScopeContextManager(object):
 
     The best way to explain what this does is a few examples. In all
     the following snippets, `scope = ScopeContextManager` for brevity.
-    First, the simplest way to use a scope is with no arguments:
+    First, the simplest way to use a scope is with no arguments::
 
         with scope():
             # temporary assignments
 
     In this usage, any assignments made to local variables inside the
-    scope (i.e. inside the `with` statement) will be undone afterwards.
-    So in the following example, once the scope ends, `a` and `b` are
-    restored to their original values, and `c` is restored to not existing.
+    scope (i.e. inside the ``with`` statement) will be undone afterwards.
+    So in the following example, once the scope ends, ``a`` and ``b`` are
+    restored to their original values, and ``c`` is restored to not existing.
 
         >>> a, b = 7, 9
         >>> with scope():
@@ -93,7 +93,7 @@ class ScopeContextManager(object):
         >>> print(c)
         8
 
-    Note that `b` is not reset to 9 at the end of the scope. Contrast that
+    Note that ``b`` is not reset to 9 at the end of the scope. Contrast that
     with the following example:
 
         >>> a, b = 7, 9
@@ -106,13 +106,13 @@ class ScopeContextManager(object):
         >>> print(c)
         8
 
-    in which `b` _is_ reset, because it was given as a keyword argument.
+    in which ``b`` `is` reset, because it was given as a keyword argument.
 
     It's important to keep in mind that the list+keyword mode resets all
     variables not explicitly named in the list, whereas the keyword-only
     mode resets _only_ the variables named as keywords. So using
-    `scope(a=3, b=5)` has a totally different effect from
-    `scope([], a=3, b=5)`. A variable `c` would be reset in the latter case,
+    ``scope(a=3, b=5)`` has a totally different effect from
+    ``scope([], a=3, b=5)``. A variable ``c`` would be reset in the latter case,
     not the former.
     '''
     def __init__(self, *args, **kwargs):
